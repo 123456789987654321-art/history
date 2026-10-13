@@ -1,3 +1,4 @@
+import {visionRouter} from './vision';
 import express from 'express';
 import {randomUUID} from 'node:crypto';
 import {mkdirSync,writeFileSync,renameSync} from 'node:fs';
@@ -8,6 +9,7 @@ export function createApp(dataDir=resolve('data')){
  app.set('trust proxy',1);
  const limits=new Map<string,{count:number;until:number}>();
  app.use('/api',(req,res,next)=>{if(req.method!=='POST'){next();return;}const now=Date.now();for(const [key,value] of limits)if(value.until<now)limits.delete(key);const generation=req.path.endsWith('/generate');const key=(req.ip||'unknown')+(generation?':generation':':events');const limit=generation?6:180;const current=limits.get(key)||{count:0,until:now+60000};current.count++;limits.set(key,current);if(current.count>limit){res.status(429).json({error:'操作过于频繁，请一分钟后重试'});return;}next();});
+ app.use('/api/vision',visionRouter());
  app.use(express.json({limit:'40kb'}));
  app.use('/api',(req,res,next)=>{const origin=req.headers.origin;if(origin && !['http://127.0.0.1:5173','http://localhost:5173',`http://${req.headers.host}`].includes(origin)){res.status(403).json({error:'不允许的请求来源'});return;}res.setHeader('Cache-Control','no-store');next();});
  const save=(s:Session,action:string,detail:unknown)=>{s.logs.push({at:new Date().toISOString(),action,detail});writeFileSync(resolve(dataDir,s.id+'.tmp'),JSON.stringify(s,null,2));renameSync(resolve(dataDir,s.id+'.tmp'),resolve(dataDir,s.id+'.json'));};
