@@ -13,7 +13,7 @@ document.querySelector('#app')!.innerHTML=`
 <div class="model-empty" id="model-empty"><div class="empty-symbol" aria-hidden="true"><span></span><span></span><span></span></div><h3>你的文物，还没有三维模型</h3><p>模型生成成功后，会在这里展示。<br>现在不会用通用器型或照片贴图代替生成结果。</p></div>
 <div class="next-stages"><section><span>02 · 识别候选</span><h3>等待照片识别结果</h3><p>接入服务后，这里展示候选名称、判断依据和可核查来源；证据不足时保留“未能确认”。</p></section><section><span>03 · 人工确认</span><h3>尚无可确认的候选</h3><p>确认照片与候选是否一致。名称、年代和故事不会因器型相似而自动成为确定事实。</p><button class="button secondary" disabled>确认文物身份</button></section></div>
 <div class="generation-footer"><div><span>04 · 生成三维模型</span><p>需先确认候选，并配置三维生成服务。</p></div><button id="generate-model" class="button primary" disabled>生成 3D 模型</button></div></section></div>
-<aside class="disclosure"><strong>关于三维结果</strong><p>单张照片无法确定背面与遮挡结构。后续生成结果将保留“AI 生成 / 推定”标注；历史事实须单独核验并注明来源。</p></aside></main><footer class="site-footer"><span>时空修复师 · 识别 → 确认 → 三维呈现</span><span>当前版本：流程界面 · 服务待接入</span></footer>`;
+<aside class="disclosure"><strong>关于三维结果</strong><p>单张照片无法确定背面与遮挡结构。后续生成结果将保留“AI 生成 / 推定”标注；历史事实须单独核验并注明来源。</p></aside></main>`;
 const el=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
 let sequence=0;
 const input=el<HTMLInputElement>('image-input');
